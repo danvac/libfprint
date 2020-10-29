@@ -102,6 +102,7 @@ default_drivers = [
     'vfs101',
     'vfs301',
     'vfs0050',
+    'vfs0090',
     'etes603',
     'vcom5s',
     'synaptics',
@@ -128,6 +129,7 @@ if drivers.length() == 0 or drivers[0] == ''
 endif
 
 nss_dep = dependency('', required: false)
+openssl_dep = dependency('', required: false)
 imaging_dep = dependency('', required: false)
 libfprint_conf.set10('HAVE_PIXMAN', false)
 foreach driver: drivers
@@ -144,6 +146,32 @@ foreach driver: drivers
         endif
 
         libfprint_conf.set10('HAVE_PIXMAN', true)
+    endif
+    if driver == 'vfs0090'
+        nss_dep = dependency('nss', required: false)
+        if not nss_dep.found()
+            error('NSS is required for the Validity VFS009x drivers')
+        endif
+        openssl_dep = dependency('openssl', required: false)
+        if not openssl_dep.found()
+            error('OpenSSL is required for the Validity VFS009x drivers')
+        endif
+        imaging_dep = dependency('pixman-1', required: false)
+        if not imaging_dep.found()
+            error('pixman is required for imaging support')
+        endif
+
+        git = find_program('git')
+        if git.found()
+            message('Updating the vfs0090 submodule')
+            c = run_command(git, ['submodule', 'update', '--init', '--recursive'])
+
+            if c.returncode() != 0
+                error('Impossible to update the vfs0090 submodule')
+            endif
+        else
+            message('Ensure you updated the vfs0090 submodule!')
+        endif
     endif
     if not all_drivers.contains(driver)
         error('Invalid driver \'' + driver + '\'')

@@ -26,7 +26,6 @@
 
 static const FpIdEntry whitelist_id_table[] = {
   /* Unsupported (for now) Validity Sensors finger print readers */
-  { .vid = 0x138a, .pid = 0x0090 },   /* Found on e.g. Lenovo T460s */
   { .vid = 0x138a, .pid = 0x0091 },
   { .vid = 0x138a, .pid = 0x0094 },
   { .vid = 0x138a, .pid = 0x0097 },   /* Found on e.g. Lenovo T470s */

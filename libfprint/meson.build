@@ -149,6 +149,9 @@ foreach driver: drivers
     if driver == 'vfs0050'
         drivers_sources += [ 'drivers/vfs0050.c' ]
     endif
+    if driver == 'vfs0090'
+        drivers_sources += [ 'drivers/vfs0090/vfs0090.c', 'drivers/vfs0090/vfs0090.h' ]
+    endif
     if driver == 'elan'
         drivers_sources += [ 'drivers/elan.c' ]
     endif
@@ -215,6 +218,7 @@ deps = [
     imaging_dep,
     mathlib_dep,
     nss_dep,
+    openssl_dep,
 ]
 
 # These are empty and only exist so that the include directories are created
